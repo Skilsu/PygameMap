@@ -73,7 +73,10 @@ class GenerateMap:
     def draw(self):
         for idx, i in enumerate(self.generated_map):
             for jdx, j in enumerate(i):
-                pygame.draw.circle(self.screen, (255 * j[0], 255 * j[1], 255 * j[2]),
+
+                pygame.draw.circle(self.screen, (min(255, 255 * j[0] ** 1.5),
+                                                 min(255, 255 * j[1] ** 1.5),
+                                                 min(255, 255 * j[2] ** 1.5)),
                                    (idx * 2 + 50, jdx * 2 + 50), 1)
         pygame.display.flip()
 
