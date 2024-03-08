@@ -98,8 +98,9 @@ class GenerateMap:
         for idx, i in enumerate(self.generated_map):
             for jdx, j in enumerate(i):
                 if x - 2 > idx and y - 2 > jdx:
-                    multiplier = 2
-                    height_multiplier = 500
+                    multiplier = 2  # kinda like zooming
+                    height_multiplier = 250  # bigger makes mountains higher
+                    height_multiplier *= multiplier
                     d_x = idx * multiplier
                     d_y = jdx * multiplier
                     if j[0] < self.thresholds_height[1]:
