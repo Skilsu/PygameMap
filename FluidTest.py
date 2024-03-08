@@ -31,7 +31,7 @@ class GenerateMap:
                 for i in pos:
                     diff += i - lowest
                 goal = lowest + (diff / 9)
-                self.generated_map[idx][jdx] += (goal - self.generated_map[idx][jdx]) / 10
+                self.generated_map[idx][jdx] += (goal - self.generated_map[idx][jdx]) / 5
 
     def handle_events(self):
         for event in pygame.event.get():
