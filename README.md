@@ -14,3 +14,7 @@ CreateMap is designed with the scope of being a potentioal game so currently cow
 ### Example natural 3D generation:
 
 ![Preview 3D Map Natural](https://raw.githubusercontent.com/Skilsu/PygameMap/master/data/Example3DNatural.png)
+
+### Fluid test example:
+
+![Preview Fluid Map Example](https://github.com/Skilsu/PygameMap/blob/master/data/FluidTestExample.gif)
