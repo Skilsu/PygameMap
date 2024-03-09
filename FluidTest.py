@@ -1,3 +1,5 @@
+import copy
+
 import pygame
 
 
@@ -6,32 +8,39 @@ class GenerateMap:
         # Set up Pygame
         self.generated_map = []
         pygame.init()
-        width, height = 500, 500
+        self.screen_size = 400
+        width, height = self.screen_size + 100, self.screen_size + 100
+        self.grid_size = 50
         self.screen = pygame.display.set_mode((width, height))
         self.generate_new_map()
         self.running = True
 
     def generate_new_map(self):
-        self.generated_map = [[0 for _ in range(20)] for _ in range(20)]
+        self.generated_map = [[0 for _ in range(self.grid_size)] for _ in range(self.grid_size)]
 
     def act(self):
+        new_map = copy.deepcopy(self.generated_map)
+        len_x = len(self.generated_map)
+        len_y = len(self.generated_map[0])
         for idx, row in enumerate(self.generated_map):
             for jdx, position in enumerate(row):
                 min_x = max(0, idx - 1)
-                max_x = min(idx + 1, 200)
+                max_x = min(idx + 2, self.grid_size)
                 min_y = max(0, jdx - 1)
-                max_y = min(jdx + 1, 200)
+                max_y = min(jdx + 2, self.grid_size)
                 pos = []
                 for i in range(min_x, max_x):
                     for j in range(min_y, max_y):
                         pos.append(self.generated_map[i][j])
                 diff = 0
+                divisor = len(pos)
                 lowest = min(pos)
                 pos.remove(lowest)
                 for i in pos:
                     diff += i - lowest
-                goal = lowest + (diff / 9)
-                self.generated_map[idx][jdx] += (goal - self.generated_map[idx][jdx]) / 5
+                goal = lowest + (diff / divisor)
+                new_map[idx][jdx] += (goal - self.generated_map[idx][jdx])
+        self.generated_map = new_map
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -42,8 +51,8 @@ class GenerateMap:
                 if 51 < mouse_x < 449 and 51 < mouse_y < 449:
                     mouse_x -= 50
                     mouse_y -= 50
-                    mouse_x /= 20
-                    mouse_y /= 20
+                    mouse_x /= self.screen_size / self.grid_size
+                    mouse_y /= self.screen_size / self.grid_size
                     self.generated_map[int(mouse_x)][int(mouse_y)] += 1
                 self.draw()
 
@@ -52,7 +61,8 @@ class GenerateMap:
         for idx, i in enumerate(self.generated_map):
             for jdx, j in enumerate(i):
                 pygame.draw.circle(self.screen, (100, min(255, 255 * j), 100),
-                                   (idx * 20 + 50, jdx * 20 + 50), 5)
+                                   (idx * (self.screen_size / self.grid_size) + 50,
+                                    jdx * (self.screen_size / self.grid_size) + 50), 2)
         pygame.display.flip()
 
     def run(self):
