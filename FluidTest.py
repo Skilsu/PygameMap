@@ -20,17 +20,11 @@ class GenerateMap:
 
     def act(self):
         new_map = copy.deepcopy(self.generated_map)
-        len_x = len(self.generated_map)
-        len_y = len(self.generated_map[0])
         for idx, row in enumerate(self.generated_map):
             for jdx, position in enumerate(row):
-                min_x = max(0, idx - 1)
-                max_x = min(idx + 2, self.grid_size)
-                min_y = max(0, jdx - 1)
-                max_y = min(jdx + 2, self.grid_size)
                 pos = []
-                for i in range(min_x, max_x):
-                    for j in range(min_y, max_y):
+                for i in range(max(0, idx - 1), min(idx + 2, self.grid_size)):
+                    for j in range(max(0, jdx - 1), min(jdx + 2, self.grid_size)):
                         pos.append(self.generated_map[i][j])
                 diff = 0
                 divisor = len(pos)

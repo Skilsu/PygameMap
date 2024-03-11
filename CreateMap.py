@@ -7,6 +7,7 @@ import threading
 import pygame
 import noise
 from Animals import Cow
+from Waves import Wave
 
 SHAPE = [300, 300]
 SCALE = 100.0
@@ -37,6 +38,7 @@ class GenerateMap:
         self.scale = 60
         self.divider = 5
         self.animals = []
+        self.waves = Wave()
 
     def load_map(self):
         self.loading_progress += 1500
@@ -418,6 +420,17 @@ class GenerateMap:
                                     ((int(y) - 2 + j) - self.init_pos[1]) * 2 + 50), 1)
         self.redraw_main_map_pos(x, y)
 
+    def draw_water(self):
+        for i in range(self.init_pos[0], self.init_pos[0] + int(SHAPE[0])):
+            for j in range(self.init_pos[1], self.init_pos[1] + int(SHAPE[1])):
+                if self.generated_height[int(i)][int(j)] < self.thresholds_height[1]:  # water
+                    r, g, b = self.get_color(i, j)
+                    height = self.waves.get_water(i, j)
+                    b = b * (1 - (height / 2))
+                    pygame.draw.circle(self.screen, (r, g, b),
+                                       (700 + (i - self.init_pos[0]) * 2,
+                                        (j - self.init_pos[1]) * 2 + 50 + height), 1)
+
     def redraw_main_map_pos(self, x, y):
         for i in range(max(0, int(x) - 20), min(2999, int(x) + 20)):
             for j in range(max(0, int(y) - 20), min(2999, int(y) + 20)):
@@ -495,7 +508,9 @@ class GenerateMap:
                         self.redraw_main_map_pos(a.x, a.y)
         for a in animals_to_remove:
             self.animals.remove(a)
+        self.waves.next()
         self.draw_animals()
+        self.draw_water()
         self.handle_events()
         pygame.time.delay(1)
 
@@ -544,6 +559,7 @@ if __name__ == '__main__':
         newmap.run()
 
     pygame.quit()
+    print("Saving...")
     if newmap.loading_finished:
         save_list_to_file(newmap.generated_terrain, "temp/generated_terrain")
         save_list_to_file(newmap.generated_height, "temp/generated_height")
