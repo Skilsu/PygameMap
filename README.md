@@ -1,4 +1,4 @@
-# A few tests with the niose function
+# A few tests with e.g. the niose function
 
 Implementation of a few Maps using the noise function visualized with pygame.
 CreateMap is designed with the scope of being a potentioal game so currently cows can be added(Feel free to extend ^^).
@@ -16,5 +16,6 @@ CreateMap is designed with the scope of being a potentioal game so currently cow
 ![Preview 3D Map Natural](https://raw.githubusercontent.com/Skilsu/PygameMap/master/data/Example3DNatural.png)
 
 ### Fluid test example:
+This wasnt made with the noise Function but has quite a similar structure to the other maps.
 
 ![Preview Fluid Map Example](https://github.com/Skilsu/PygameMap/blob/master/data/FluidTestExample.gif)
